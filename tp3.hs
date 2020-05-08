@@ -31,7 +31,7 @@ enojarse participante = participante {dinero = dinero participante +50, acciones
 gritar :: Accion
 gritar participante = participante {nombre = "AHHHH " ++ nombre participante}
 
--- como se haria por pattern mattching?
+-- como se haria por pattern mattching??
 subastar :: Propiedad -> Accion
 subastar propiedadAAdquirir participante 
     | esAccionistaUOferente participante = ganarPropiedad propiedadAAdquirir participante

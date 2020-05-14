@@ -63,7 +63,6 @@ esDeTactica unaTactica participante = tactica participante == unaTactica
 esAccionistaUOferente :: Participante -> Bool
 esAccionistaUOferente participante = esDeTactica "Oferente singular" participante || esDeTactica "Accionista" participante 
 
--- como se haria por pattern mattching?
 pagarAAccionistas :: Accion 
 pagarAAccionistas participante 
     | tactica participante == "Accionista" = cambiarDinero 200 participante
@@ -71,9 +70,9 @@ pagarAAccionistas participante
 
 --esta issue todavia no la modifique. 
 cobrarAlquileres :: Accion
-cobrarAlquileres participante = participante { dinero = dinero participante + (sum.(map esPropiedadBarata).propiedades) participante }
+cobrarAlquileres participante = participante { dinero = dinero participante + (sum.(map filtrarPropiedades).propiedades) participante }
 
-esPropiedadBarata :: Propiedad -> Int
-esPropiedadBarata unaPropiedad 
+filtrarPropiedades :: Propiedad -> Int
+filtrarPropiedades unaPropiedad 
     | precioPropiedad unaPropiedad < 150 = 10
     | otherwise = 20

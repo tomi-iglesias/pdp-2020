@@ -28,8 +28,8 @@ cambiarDinero nuevoDinero participante = participante {dinero = dinero participa
 cambiarTactica :: String -> Accion
 cambiarTactica nuevaTactica participante = participante {tactica = nuevaTactica}
 
-cambiarAcciones :: Accion -> Accion
-cambiarAcciones nuevaAccion participante = participante {acciones = nuevaAccion : acciones participante }
+agregarAccion :: Accion -> Accion
+agregarAccion nuevaAccion participante = participante {acciones = nuevaAccion : acciones participante }
 
 cambiarNombre :: String -> Accion
 cambiarNombre nuevoNombre participante = participante {nombre = nuevoNombre ++ nombre participante }
@@ -44,7 +44,7 @@ pasarPorElBanco :: Accion
 pasarPorElBanco participante = ((cambiarDinero 40). (cambiarTactica "Comprador Compulsivo")) participante
 
 enojarse :: Accion
-enojarse participante = ((cambiarDinero 50).(cambiarAcciones gritar)) participante
+enojarse participante = ((cambiarDinero 50).(agregarAccion gritar)) participante
 
 gritar :: Accion
 gritar participante = cambiarNombre "AHHHH " participante

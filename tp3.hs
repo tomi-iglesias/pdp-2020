@@ -70,9 +70,9 @@ pagarAAccionistas participante
 
 --esta issue todavia no la modifique. 
 cobrarAlquileres :: Accion
-cobrarAlquileres participante = participante { dinero = dinero participante + (sum.(map filtrarPropiedades).propiedades) participante }
+cobrarAlquileres participante = participante { dinero = dinero participante + (sum.(map precioPorPropiedad).propiedades) participante }
 
-filtrarPropiedades :: Propiedad -> Int
-filtrarPropiedades unaPropiedad 
+precioPorPropiedad :: Propiedad -> Int
+precioPorPropiedad unaPropiedad 
     | precioPropiedad unaPropiedad < 150 = 10
     | otherwise = 20

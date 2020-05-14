@@ -34,6 +34,9 @@ cambiarAcciones nuevaAccion participante = participante {acciones = nuevaAccion 
 cambiarNombre :: String -> Accion
 cambiarNombre nuevoNombre participante = participante {nombre = nuevoNombre ++ nombre participante }
 
+agregarPropiedad :: Propiedad -> Accion
+agregarPropiedad nuevaPropiedad participante = participante { propiedades = nuevaPropiedad : propiedades participante }
+
 precioPropiedad :: Propiedad -> Int
 precioPropiedad (_,precioDePropiedad) = precioDePropiedad
 
@@ -52,7 +55,7 @@ subastar propiedadAAdquirir participante
     | otherwise = participante
 
 ganarPropiedad :: Propiedad -> Accion
-ganarPropiedad propiedadGanada participante = cambiarDinero (precioPropiedad propiedadGanada) participante {propiedades = propiedades participante ++ [propiedadGanada] }
+ganarPropiedad propiedadGanada participante = (cambiarDinero (precioPropiedad propiedadGanada).(agregarPropiedad propiedadGanada)) participante
 
 esDeTactica :: String -> Participante -> Bool
 esDeTactica unaTactica participante = tactica participante == unaTactica 

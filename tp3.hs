@@ -51,8 +51,11 @@ subastar propiedadAAdquirir participante
 ganarPropiedad :: Propiedad -> Accion
 ganarPropiedad propiedadGanada participante = cambiarDinero (snd propiedadGanada) participante {propiedades = propiedades participante ++ [propiedadGanada] }
 
+esDeTactica :: String -> Participante -> Bool
+esDeTactica unaTactica participante = tactica participante == unaTactica 
+
 esAccionistaUOferente :: Participante -> Bool
-esAccionistaUOferente participante = tactica participante == "Oferente singular" || tactica participante == "Accionista" 
+esAccionistaUOferente participante = esDeTactica "Oferente singular" participante || esDeTactica "Accionista" participante 
 
 -- como se haria por pattern mattching?
 pagarAAccionistas :: Accion 

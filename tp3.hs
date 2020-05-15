@@ -68,9 +68,8 @@ pagarAAccionistas participante
     | tactica participante == "Accionista" = cambiarDinero 200 participante
     | otherwise = cambiarDinero (-100) participante
 
---esta issue todavia no la modifique. 
 cobrarAlquileres :: Accion
-cobrarAlquileres participante = participante { dinero = dinero participante + (sum.(map precioPorPropiedad).propiedades) participante }
+cobrarAlquileres participante = cambiarDinero ((sum.(map precioPorPropiedad).propiedades) participante) participante
 
 precioPorPropiedad :: Propiedad -> Int
 precioPorPropiedad unaPropiedad 

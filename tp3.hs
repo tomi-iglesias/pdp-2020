@@ -38,7 +38,7 @@ agregarPropiedad :: Propiedad -> Accion
 agregarPropiedad nuevaPropiedad participante = participante { propiedades = nuevaPropiedad : propiedades participante }
 
 precioPropiedad :: Propiedad -> Int
-precioPropiedad (_,precioDePropiedad) = precioDePropiedad
+precioPropiedad (_,precio) = precio
 
 pasarPorElBanco :: Accion
 pasarPorElBanco participante = ((cambiarDinero 40). (cambiarTactica "Comprador Compulsivo")) participante
@@ -55,7 +55,7 @@ subastar propiedadAAdquirir participante
     | otherwise = participante
 
 ganarPropiedad :: Propiedad -> Accion
-ganarPropiedad propiedadGanada participante = (cambiarDinero (precioPropiedad propiedadGanada).(agregarPropiedad propiedadGanada)) participante
+ganarPropiedad propiedadGanada participante = (cambiarDinero (-precioPropiedad propiedadGanada).(agregarPropiedad propiedadGanada)) participante
 
 esDeTactica :: String -> Participante -> Bool
 esDeTactica unaTactica participante = tactica participante == unaTactica 
@@ -76,3 +76,29 @@ precioPorPropiedad :: Propiedad -> Int
 precioPorPropiedad unaPropiedad 
     | precioPropiedad unaPropiedad < 150 = 10
     | otherwise = 20
+
+puedeComprarPropiedad :: Int -> Participante -> Bool
+puedeComprarPropiedad precioDeUnaPropiedad participante = precioDeUnaPropiedad <= dinero participante
+
+hacerBerrinchePor :: Propiedad -> Accion
+hacerBerrinchePor propiedad participante 
+    | puedeComprarPropiedad (precioPropiedad propiedad) participante = ganarPropiedad propiedad participante
+    | otherwise = ((hacerBerrinchePor propiedad).gritar.(cambiarDinero 10)) participante
+
+--componer las funciones default del participante
+ultimaRonda :: Participante -> Accion
+ultimaRonda participante = foldl1 (.) (acciones participante)
+
+--creo que queda mejor el tipado asi que devolver Accion.
+--en caso de empate devuelve el segundo participante que le pase. 
+juegoFinal :: Participante -> Participante -> Participante
+juegoFinal unParticipante otroParticipante
+    | dineroUltimaRonda unParticipante > dineroUltimaRonda otroParticipante = jugarUltimaRonda unParticipante
+    | otherwise = jugarUltimaRonda otroParticipante
+
+jugarUltimaRonda :: Accion
+jugarUltimaRonda participante = (ultimaRonda participante) participante
+
+dineroUltimaRonda :: Participante -> Int
+dineroUltimaRonda participante = (dinero.jugarUltimaRonda) participante
+

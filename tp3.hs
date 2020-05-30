@@ -41,7 +41,7 @@ precioPropiedad :: Propiedad -> Int
 precioPropiedad (_,precio) = precio
 
 pasarPorElBanco :: Accion
-pasarPorElBanco participante = ((cambiarDinero 40). (cambiarTactica "Comprador Compulsivo")) participante
+pasarPorElBanco participante = cambiarDinero 40 . cambiarTactica "Comprador Compulsivo" $ participante 
 
 enojarse :: Accion
 enojarse participante = ((cambiarDinero 50).(agregarAccion gritar)) participante
@@ -86,7 +86,7 @@ hacerBerrinchePor propiedad participante
 
 --componer las funciones default del participante
 ultimaRonda :: Participante -> Accion
-ultimaRonda participante = foldl1 (.) (acciones participante)
+ultimaRonda participante = foldl1 (.) (acciones participante)   
 
 --creo que queda mejor el tipado asi que devolver Accion.
 --en caso de empate devuelve el segundo participante que le pase. 
